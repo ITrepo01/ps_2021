@@ -9,8 +9,9 @@ ForEach-Object {
     Write-Host " Backup\$($_.Name)"
     $BUSize += $_.Length 
     $BUCount++
-    $NewFileName = "Backup\" + $_.Name + "_" + `
-        $_.LastWriteTime.ToString("yyyy-MM-dd")
+    $FileName = [io.path]::GetFileNameWithoutExtension($_.name)
+    $FileType = [io.path]::GetExtension($_.name)
+    $NewFileName = "Backup\$FileName" + "_" + $_.LastWriteTime.ToString("yyyy-MM-dd") + $FileType
     Copy-Item $_ $NewFileName }
 
 Write-Host "Saved:" $BUCount "files," $BUSize.ToString("n0") "bytes"
